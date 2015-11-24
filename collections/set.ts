@@ -50,15 +50,14 @@ module core.collections {
 		public get count(): number { return this._data.count; }
 
 		/**
-		 * The mode of the set
+		 * Gets the value indicating whether the current Set<T> is read-only
 		 * @type {boolean}
-		 * @public
 		 */
 		public get readOnly(): boolean { return this._data.readOnly; }
 
 		/**
 		 * Adds the specified element to the current Set<T>
-		 * @param {T} The specified element to add to the current Set<T>
+		 * @param {T} the specified element to add to the current Set<T>
 		 * @returns {{true}} if the specified element isn't allready present
 		 * and if it's added to the current Set<T>; otherwise, false
 		 */
@@ -78,7 +77,7 @@ module core.collections {
 
 		/**
 		 * Clones the current Set<T> and all its elements
-		 * @returns {Object} the cloned Set<T> with all its elements
+		 * @returns {Object} a clone of the current Set<T> with all its elements
 		 */
 		public clone(): any {
 			var clonedSet: ISet<T> = new Set<T>();
@@ -91,7 +90,7 @@ module core.collections {
 
 		/**
          * Determines whether the current Set<T> contains the specified element
-         * @param {T} The specified element to locate in the current Set<T>
+         * @param {T} the specified element to locate in the current Set<T>
          * @returns {boolean} true if the current Set<T> contains the specified element;
 		 * otherwise, false
          */
@@ -101,7 +100,7 @@ module core.collections {
 
 		/**
 		 * Removes all elements in the specified Set<T> from the current Set<T>
-		 * @param {ISet<T>} The specified Set<T> containing the elements to remove from the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> containing the elements to remove from the current Set<T>
 		 */
 		public except(otherSet: ISet<T>): void {
 			otherSet.forEach((element: T) => {
@@ -112,7 +111,7 @@ module core.collections {
 
 		/**
          * Executes the specified function for each element of the current Set<T>
-         * @param {function(element: T) => void}: void The function to execute
+         * @param {function(element: T)}: the function to execute
          */
 		public forEach(cb: (element: T) => void): void {
 			this._data.forEach((key: string, element: T) => {
@@ -122,7 +121,7 @@ module core.collections {
 
 		/**
 		 * Modifies the current Set<T> to contain only elements that are present im both Set<T>
-		 * @param {ISet<T>} The specified Set<T> to compare to the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
 		 */
 		public intersect(otherSet: ISet<T>): void {
 			var intersectData: IDictionary<string, T> = new Dictionary<string, T>();
@@ -145,7 +144,7 @@ module core.collections {
 
 		/**
 		 * Determines whether the current Set<T> is a subset of the specified Set<T>
-		 * @param {ISet<T>} The specified Set<T> to compare to the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
          * @returns {boolean} true if the current Set<T> is a subset of the specified Set<T>;
 		 * otherwise, false
 		 */
@@ -165,7 +164,7 @@ module core.collections {
 
 		/**
 		 * Determines whether the current Set<T> is a superset of the specified Set<T>
-		 * @param {ISet<T>} The specified Set<T> to compare to the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
          * @returns {boolean} true if the current Set<T> is a superset of the specified Set<T>;
 		 * otherwise, false
 		 */
@@ -175,7 +174,7 @@ module core.collections {
 
 		/**
 		 * Determines whether the current Set<T> and the specified Set<T> share common elements
-		 * @param {ISet<T>} The specified Set<T> to compare to the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
 		 * @returns {boolean} true if the current Set<T> and the specified Set<T> share at least one common element;
 		 * otherwise, false.
 		 */
@@ -192,7 +191,7 @@ module core.collections {
 
 		/**
 		 * Removes the specified element from the current Set<T>
-		 * @param {T} The specified element to remove from the current Set<T>
+		 * @param {T} the specified element to remove from the current Set<T>
 		 * @returns {boolean} if the specified element is successfully found and removed from the current Set<T>;
 		 * otherwise, false
 		 */
@@ -202,7 +201,7 @@ module core.collections {
 
 		/**
 		 * Copies all the elements of the current Set<T> to an array
-		 * @returns {T[]} an array that includes all the elements of the current Set<T>
+		 * @returns {T[]}  a new array containing copies of all the elements of the current Set<T>
 		 */
 		public toArray(): T[] {
 			return this._data.toArray();
@@ -210,7 +209,7 @@ module core.collections {
 
 		/**
 		 * Modifies the current Set<T> to contain all elements that are present in itself, the specified Set<T>, or both.
-		 * @param {ISet<T>} The specified Set<T> to compare to the current Set<T>
+		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
 		 */
 		public union(otherSet: ISet<T>): void {
 			otherSet.forEach((element: T) => {
