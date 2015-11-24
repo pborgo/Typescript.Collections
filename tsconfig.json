@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"listFiles": false,
+		"noImplicitAny": false,
+		"preserveConstEnums": true,
+		"removeComments": false,
+		"sourceMap": true,
+		"target": "ES5"
+	}
+}

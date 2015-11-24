@@ -1,0 +1,29 @@
+{
+  "name": "TypeScript.Collections",
+  "version": "0.0.1",
+  "description": "",
+  "main": "collections.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pborgo/TypeScript.Collections.git"
+  },
+  "keywords": [
+    "typescript",
+    "collections",
+    "generics",
+    "dictionary",
+    "list",
+    "stack",
+    "queue",
+    "set"
+  ],
+  "author": "Patrick Borgo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pborgo/TypeScript.Collections/issues"
+  },
+  "homepage": "https://github.com/pborgo/TypeScript.Collections"
+}
