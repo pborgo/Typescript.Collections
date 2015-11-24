@@ -1,17 +1,13 @@
 module core.collections {
 	'use strict';
 
-	export interface IQueue<T extends IEquatable> {
-		count: number;
-		clear(): void;
-		contains(item: T): boolean;
+	export interface IQueue<T extends IEquatable> extends ICollection<T> {
 		dequeue(): T;
 		enqueue(item: T): boolean;
+		forEach(cb: (item: T) => boolean): void;
 		indexOf(item: T): number;
-		isEmpty(): boolean;
 		lastIndexOf(item: T): number;
 		peek(): T;
-		toArray(): T[];
 	}
 
 	export class Queue<T extends IEquatable> implements IQueue<T> {
@@ -22,6 +18,8 @@ module core.collections {
 		}
 
 		public get count(): number { return this._data.count; }
+
+		public get readOnly(): boolean { return this._data.readOnly; }
 
 		public clear(): void {
 			this._data.clear();
@@ -41,6 +39,10 @@ module core.collections {
 
 		public enqueue(item: T): boolean {
 			return this._data.append(item);
+		}
+
+		public forEach(cb: (item: T) => boolean): void {
+			// TODO
 		}
 
 		public indexOf(item: T): number {

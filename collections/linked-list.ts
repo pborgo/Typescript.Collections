@@ -17,27 +17,25 @@ module core.collections {
 		public constructor(public item: T) {}
 	}
 
-	export interface ILinkedList<T extends IEquatable> {
-		count: number;
+	export interface ILinkedList<T extends IEquatable> extends ICollection<T> {
 		first: T;
 		last: T;
 		addAfter(item: T, idx: number): boolean;
 		addBefore(item: T, idx: number): boolean;
 		append(item: T): boolean;
-		clear(): void;
-		contains(item: T): boolean;
+		forEach(cb: (item: T) => boolean): void;
 		indexOf(item: T): number;
-		isEmpty(): boolean;
 		lastIndexOf(item: T): number;
 		prepend(item: T): boolean;
 		remove(item: T): boolean;
 		removeAt(idx: number): boolean;
 		removeLast(item: T): boolean;
-		toArray(): T[];
+		reverse(): void;
 	}
 
 	export class LinkedList<T extends IEquatable> implements ILinkedList<T> {
 		private _count: number;
+		private _readOnly: boolean;
 		private _first: ILinkedListNode<T>;
 		private _last: ILinkedListNode<T>;
 
@@ -46,6 +44,8 @@ module core.collections {
 		}
 
 		public get count(): number { return this._count; }
+
+		public get readOnly(): boolean { return this._readOnly; }
 
 		public addAfter(item: T, idx: number): boolean {
 			if(!this._isValid(item, idx))
@@ -148,6 +148,16 @@ module core.collections {
 			}
 
 			this._first.item = item;
+		}
+
+		public forEach(cb: (item: T) => boolean): void {
+			var currentNode = this._first;
+            while (currentNode !== null) {
+                if (cb(currentNode.item) === false) {
+                    break;
+                }
+                currentNode = currentNode.next;
+            }
 		}
 
 		public indexOf(item: T): number {
@@ -271,6 +281,10 @@ module core.collections {
 
 			this._remove(currentNode);
 			return true;
+		}
+
+		public reverse(): void {
+			// TODO
 		}
 
 		public toArray(): T[] {

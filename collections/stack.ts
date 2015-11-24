@@ -1,17 +1,13 @@
 module core.collections {
 	'use strict';
 
-	export interface IStack<T extends IEquatable> {
-		count: number;
-		clear(): void;
-		contains(item: T): boolean;
+	export interface IStack<T extends IEquatable> extends ICollection<T> {
+		forEach(cb: (item: T) => boolean): void;
 		indexOf(item: T): number;
-		isEmpty(): boolean;
 		lastIndexOf(item: T): number;
 		peek(): T;
 		pop(): T;
 		push(item: T): boolean;
-		toArray(): T[];
 	}
 
 	export class Stack<T extends IEquatable> implements IStack<T> {
@@ -23,12 +19,18 @@ module core.collections {
 
 		public get count(): number { return this._data.count; }
 
+		public get readOnly(): boolean { return this._data.readOnly; }
+
 		public clear(): void {
 			this._data.clear();
 		}
 
 		public contains(item: T): boolean {
 			return this._data.contains(item);
+		}
+
+		public forEach(cb: (item: T) => boolean): void {
+			// TODO
 		}
 
 		public indexOf(item: T): number {
