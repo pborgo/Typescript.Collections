@@ -5,27 +5,23 @@ module core.collections {
 		count: number;
 		clear(): void;
 		contains(item: T): boolean;
-		copyTo(output: T[], startIdx: number): T[];
-		equals(otherStack: IStack<T>): boolean;
-		finalize(): boolean;
+		indexOf(item: T): number;
+		isEmpty(): boolean;
+		lastIndexOf(item: T): number;
 		peek(): T;
 		pop(): T;
 		push(item: T): boolean;
 		toArray(): T[];
-		toString(): string;
-		trimExcess(): boolean;
 	}
 
 	export class Stack<T extends IEquatable> implements IStack<T> {
 		private _data: ILinkedList<T>;
-		private _count: number;
 
 		public constructor() {
 			this._data = new LinkedList<T>();
-			this._count = 0;
 		}
 
-		public get count(): number { return this._count; }
+		public get count(): number { return this._data.count; }
 
 		public clear(): void {
 			this._data.clear();
@@ -35,44 +31,36 @@ module core.collections {
 			return this._data.contains(item);
 		}
 
-		public copyTo(output: T[], startIdx: number): T[] {
-			return [];
+		public indexOf(item: T): number {
+			return this._data.indexOf(item);
 		}
 
-		public equals(otherStack: IStack<T>): boolean {
-			return true;
+		public isEmpty(): boolean {
+			return this._data.isEmpty();;
 		}
 
-		public finalize(): boolean {
-			return true;
+		public lastIndexOf(item: T): number {
+			return this._data.lastIndexOf(item);
 		}
 
 		public peek(): T {
-			return this._data.last;
+			return this._data.first;
 		}
 
 		public pop(): T {
 			var item = this._data.last;
-			if(item !== null && this._data.removeLast(item))
-				this._count--;
+			if(item !== null && this._data.remove(item))
+				return item;
 
-			return item;
+			return null;
 		}
 
 		public push(item: T): boolean {
-			return this._data.append(item);
+			return this._data.prepend(item);
 		}
 
 		public toArray(): T[] {
-			return [];
-		}
-
-		public toString(): string {
-			return "";
-		}
-
-		public trimExcess(): boolean {
-			return true;
+			return this._data.toArray();
 		}
 	}
 }

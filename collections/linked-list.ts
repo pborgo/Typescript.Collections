@@ -1,6 +1,7 @@
 module core.collections {
 	'use strict';
 
+	import IClonable = core.IClonable;
 	import IEquatable = core.IEquatable;
 
 	export interface ILinkedListNode<T extends IEquatable> {
@@ -25,11 +26,14 @@ module core.collections {
 		append(item: T): boolean;
 		clear(): void;
 		contains(item: T): boolean;
-		find(item: T): T;
-		findLast(item: T): T;
+		indexOf(item: T): number;
+		isEmpty(): boolean;
+		lastIndexOf(item: T): number;
 		prepend(item: T): boolean;
 		remove(item: T): boolean;
+		removeAt(idx: number): boolean;
 		removeLast(item: T): boolean;
+		toArray(): T[];
 	}
 
 	export class LinkedList<T extends IEquatable> implements ILinkedList<T> {
@@ -104,17 +108,7 @@ module core.collections {
 		}
 
 		public contains(item: T): boolean {
-			return this.find(item) !== null;
-		}
-
-		public find(item: T): T {
-			var node = this._findNode(item);
-			return node === null ? null : node.item;
-		}
-
-		public findLast(item: T): T {
-			var node = this._findLastNode(item);
-			return node === null ? null : node.item;
+			return this._findNode(item) !== null;
 		}
 
 		public get first(): T {
@@ -156,6 +150,28 @@ module core.collections {
 			this._first.item = item;
 		}
 
+		public indexOf(item: T): number {
+			if(item === null)
+				return -1;
+
+			var currentIdx = 0;
+			var currentNode = this._first;
+
+			while(currentNode !== null){
+				if(currentNode.item.equals(item))
+					return currentIdx;
+
+				currentIdx++;
+				currentNode = currentNode.next;
+			}
+
+			return -1;
+		}
+
+		public isEmpty(): boolean {
+			return this._count === 0;
+		}
+
 		public get last(): T {
 			return this._last === null ? null : this._last.item;
 		}
@@ -194,6 +210,24 @@ module core.collections {
 			this._last.item = item;
 		}
 
+		public lastIndexOf(item: T): number {
+			if(item === null)
+				return -1;
+
+			var currentIdx = this._count - 1;
+			var currentNode = this._last;
+
+			while(currentNode !== null){
+				if(currentNode.item.equals(item))
+					return currentIdx;
+
+				currentIdx--;
+				currentNode = currentNode.prev;
+			}
+
+			return -1;
+		}
+
 		public prepend(item: T): boolean {
 			if(item === null)
 				return false;
@@ -221,6 +255,15 @@ module core.collections {
 			return true;
 		}
 
+		public removeAt(idx: number): boolean {
+			var currentNode = this._getNodeAt(idx);
+			if(currentNode === null)
+				return false;
+
+			this._remove(currentNode);
+			return true;
+		}
+
 		public removeLast(item: T): boolean {
 			var currentNode = this._findLastNode(item);
 			if(currentNode === null)
@@ -228,6 +271,18 @@ module core.collections {
 
 			this._remove(currentNode);
 			return true;
+		}
+
+		public toArray(): T[] {
+			var output: T[] = [];
+			var currentNode = this._first;
+
+			while(currentNode !== null) {
+				output.push(currentNode.item);
+				currentNode = currentNode.next;
+			}
+
+			return output;
 		}
 
 		private _findNode(item: T): ILinkedListNode<T> {
