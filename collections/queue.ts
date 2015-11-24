@@ -19,6 +19,11 @@ module core.collections {
 		reverse(): void;
 	}
 
+	/**
+	 * Represents a FIFO collection of elements
+	 * @class
+	 * @implements IQueue<T>
+	 */
 	export class Queue<T extends ICollectable> implements IQueue<T> {
 
 		/**
