@@ -1,16 +1,17 @@
 module core.collections {
 	'use strict';
 
-	export interface IQueue<T extends IEquatable> extends ICollection<T> {
+	export interface IQueue<T extends ICollectable> extends ICollection<T> {
 		dequeue(): T;
 		enqueue(item: T): boolean;
-		forEach(cb: (item: T) => boolean): void;
+		forEach(cb: (item: T) => void): void;
 		indexOf(item: T): number;
 		lastIndexOf(item: T): number;
 		peek(): T;
+		reverse(): void;
 	}
 
-	export class Queue<T extends IEquatable> implements IQueue<T> {
+	export class Queue<T extends ICollectable> implements IQueue<T> {
 		private _data: ILinkedList<T>;
 
 		public constructor() {
@@ -23,6 +24,17 @@ module core.collections {
 
 		public clear(): void {
 			this._data.clear();
+		}
+
+		public clone(): any {
+			var clonedQueue: IQueue<T> = new Queue<T>();
+
+			this._data.forEach((item: T) => {
+				var clonedItem: T = item.clone();
+				clonedQueue.enqueue(clonedItem);
+			});
+
+			return clonedQueue;
 		}
 
 		public contains(item: T): boolean {
@@ -41,8 +53,10 @@ module core.collections {
 			return this._data.append(item);
 		}
 
-		public forEach(cb: (item: T) => boolean): void {
-			// TODO
+		public forEach(cb: (item: T) => void): void {
+			this._data.forEach((item: T) => {
+				cb(item);
+			});
 		}
 
 		public indexOf(item: T): number {
@@ -59,6 +73,10 @@ module core.collections {
 
 		public peek(): T {
 			return this._data.first;
+		}
+
+		public reverse(): void {
+			this._data.reverse();
 		}
 
 		public toArray(): T[] {

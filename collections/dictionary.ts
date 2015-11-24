@@ -1,28 +1,28 @@
 module core.collections {
 	'use strict';
 
-	export interface IDictionaryPair<T extends IEquatable> {
-		key: string;
-		value: T;
+	export interface IDictionaryPair<TKey, TValue extends ICollectable> {
+		key: TKey;
+		value: TValue;
 	}
 
-	export class DictionaryPair<T extends IEquatable> implements IDictionaryPair<T> {
-		public constructor(public key: string, public value: T) {}
+	export class DictionaryPair<TKey, TValue extends ICollectable> implements IDictionaryPair<TKey, TValue> {
+		public constructor(public key: TKey, public value: TValue) {}
 	}
 
-	export interface IDictionary<T extends IEquatable> extends ICollection<T> {
-		keys: string[];
-		values: T[];
-		containsKey(key: string): boolean;
-		forEach(cb: (key: string, value: T) => boolean): void;
-		get(key: string): T;
-		remove(key: string): boolean;
-		set(key: string, value: T): boolean;
+	export interface IDictionary<TKey, TValue extends ICollectable> extends ICollection<TValue> {
+		keys: TKey[];
+		values: TValue[];
+		containsKey(key: TKey): boolean;
+		forEach(cb: (key: TKey, value: TValue) => void): void;
+		get(key: TKey): TValue;
+		remove(key: TKey): boolean;
+		set(key: TKey, value: TValue): boolean;
 	}
 
-	export class Dictionary<T extends IEquatable> implements IDictionary<T> {
+	export class Dictionary<TKey, TValue extends ICollectable> implements IDictionary<TKey, TValue> {
 		private _count: number;
-		private _data: {[key: string]: IDictionaryPair<T> };
+		private _data: {[key: string]: IDictionaryPair<TKey, TValue> };
 		private _readOnly: boolean;
 
 		public constructor() {
@@ -34,20 +34,20 @@ module core.collections {
 
 		public get readOnly(): boolean { return this._readOnly; }
 
-		public get keys(): string[] {
-			var output: string[] = [];
-			for(var item in this._data) {
-				// TODO
-			}
+		public get keys(): TKey[] {
+			var output: TKey[] = [];
+			this.forEach((key: TKey, value: TValue) => {
+				output.push(key);
+			});
 
 			return output;
 		}
 
-		public get values(): T[] {
-			var output: T[] = [];
-			for(var item in this._data) {
-				// TODO
-			}
+		public get values(): TValue[] {
+			var output: TValue[] = [];
+			this.forEach((key: TKey, value: TValue) => {
+				output.push(value);
+			});
 
 			return output;
 		}
@@ -57,21 +57,28 @@ module core.collections {
 			this._data = {};
 		}
 
-		public contains(item: T): boolean {
-			// TODO
-			return true;
-		}
-
-		public containsKey(key: string): boolean {
-			// TODO
-			return true;
-		}
-
-		public forEach(cb: (key: string, val: T) => boolean): void {
+		public clone(): any {
 			// TODO;
 		}
 
-		public get(key: string): T {
+		public contains(item: TValue): boolean {
+			// TODO
+			return false;
+		}
+
+		public containsKey(key: TKey): boolean {
+			// TODO
+			return false;
+		}
+
+		public forEach(cb: (key: TKey, val: TValue) => void): void {
+			for(var pair in this._data) {
+				var dictionaryPair: IDictionaryPair<TKey, TValue> = pair;
+				cb(dictionaryPair.key, dictionaryPair.value);
+			}
+		}
+
+		public get(key: TKey): TValue {
 			// TODO
 			throw new DOMException();
 		}
@@ -80,19 +87,24 @@ module core.collections {
 			return this._count === 0;
 		}
 
-		public remove(key: string): boolean {
+		public remove(key: TKey): boolean {
 			// TODO
-			return true;
+			return false;
 		}
 
-		public set(key: string, value: T) : boolean {
+		public set(key: TKey, value: TValue) : boolean {
 			// TODO
-			return true;
+			return false;
 		}
 
-		public toArray(): T[] {
-			// TODO
-			return [];
+		public toArray(): TValue[] {
+			var output: TValue[] = [];
+
+			this.forEach((key: TKey, value: TValue) => {
+				output.push(value);
+			});
+
+			return output;
 		}
 	}
 }

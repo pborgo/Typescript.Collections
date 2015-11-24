@@ -1,16 +1,17 @@
 module core.collections {
 	'use strict';
 
-	export interface IStack<T extends IEquatable> extends ICollection<T> {
+	export interface IStack<T extends ICollectable> extends ICollection<T> {
 		forEach(cb: (item: T) => boolean): void;
 		indexOf(item: T): number;
 		lastIndexOf(item: T): number;
 		peek(): T;
 		pop(): T;
 		push(item: T): boolean;
+		reverse(): void;
 	}
 
-	export class Stack<T extends IEquatable> implements IStack<T> {
+	export class Stack<T extends ICollectable> implements IStack<T> {
 		private _data: ILinkedList<T>;
 
 		public constructor() {
@@ -25,12 +26,25 @@ module core.collections {
 			this._data.clear();
 		}
 
+		public clone(): any {
+			var clonedStack: IStack<T> = new Stack<T>();
+
+			this._data.forEach((item: T) => {
+				var clonedItem: T = item.clone();
+				clonedStack.push(clonedItem);
+			});
+
+			return clonedStack;
+		}
+
 		public contains(item: T): boolean {
 			return this._data.contains(item);
 		}
 
-		public forEach(cb: (item: T) => boolean): void {
-			// TODO
+		public forEach(cb: (item: T) => void): void {
+			this._data.forEach((item: T) => {
+				cb(item);
+			});
 		}
 
 		public indexOf(item: T): number {
@@ -46,7 +60,7 @@ module core.collections {
 		}
 
 		public peek(): T {
-			return this._data.first;
+			return this._data.last;
 		}
 
 		public pop(): T {
@@ -59,6 +73,10 @@ module core.collections {
 
 		public push(item: T): boolean {
 			return this._data.prepend(item);
+		}
+
+		public reverse(): void {
+			this._data.reverse();
 		}
 
 		public toArray(): T[] {

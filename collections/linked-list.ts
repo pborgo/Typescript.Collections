@@ -1,29 +1,26 @@
 module core.collections {
 	'use strict';
 
-	import IClonable = core.IClonable;
-	import IEquatable = core.IEquatable;
-
-	export interface ILinkedListNode<T extends IEquatable> {
+	export interface ILinkedListNode<T extends ICollectable> {
 		item: T;
 		next: ILinkedListNode<T>;
 		prev: ILinkedListNode<T>;
 	}
 
-	export class LinkedListNode<T extends IEquatable> implements ILinkedListNode<T> {
+	export class LinkedListNode<T extends ICollectable> implements ILinkedListNode<T> {
 		public next: ILinkedListNode<T>;
 		public prev: ILinkedListNode<T>;
 
 		public constructor(public item: T) {}
 	}
 
-	export interface ILinkedList<T extends IEquatable> extends ICollection<T> {
+	export interface ILinkedList<T extends ICollectable> extends ICollection<T> {
 		first: T;
 		last: T;
 		addAfter(item: T, idx: number): boolean;
 		addBefore(item: T, idx: number): boolean;
 		append(item: T): boolean;
-		forEach(cb: (item: T) => boolean): void;
+		forEach(cb: (item: T) => void): void;
 		indexOf(item: T): number;
 		lastIndexOf(item: T): number;
 		prepend(item: T): boolean;
@@ -33,7 +30,7 @@ module core.collections {
 		reverse(): void;
 	}
 
-	export class LinkedList<T extends IEquatable> implements ILinkedList<T> {
+	export class LinkedList<T extends ICollectable> implements ILinkedList<T> {
 		private _count: number;
 		private _readOnly: boolean;
 		private _first: ILinkedListNode<T>;
@@ -107,6 +104,16 @@ module core.collections {
 			this._count = 0;
 		}
 
+		public clone(): any {
+			var clonedList = new LinkedList<T>();
+			this.forEach((item: T) => {
+				var clonedItem: T = item.clone();
+				clonedList.append(clonedItem);
+			});
+
+			return clonedList;
+		}
+
 		public contains(item: T): boolean {
 			return this._findNode(item) !== null;
 		}
@@ -150,12 +157,11 @@ module core.collections {
 			this._first.item = item;
 		}
 
-		public forEach(cb: (item: T) => boolean): void {
+		public forEach(cb: (item: T) => void): void {
 			var currentNode = this._first;
+
             while (currentNode !== null) {
-                if (cb(currentNode.item) === false) {
-                    break;
-                }
+                cb(currentNode.item);
                 currentNode = currentNode.next;
             }
 		}
@@ -284,7 +290,22 @@ module core.collections {
 		}
 
 		public reverse(): void {
-			// TODO
+			var firstNode = this._first;
+			var lastNode = this._last;
+			var currentNode: ILinkedListNode<T> = this._first;
+
+            while (currentNode !== null) {
+				var prevNode = currentNode.prev;
+				var nextNode = currentNode.next;
+
+				currentNode.next = prevNode;
+				currentNode.prev = nextNode;
+
+				currentNode = nextNode;
+            }
+
+			this._last = firstNode;
+			this._first = lastNode;
 		}
 
 		public toArray(): T[] {
