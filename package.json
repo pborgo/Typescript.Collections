@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/pborgo/TypeScript.Collections/issues"
   },
-  "homepage": "https://github.com/pborgo/TypeScript.Collections"
+  "homepage": "https://github.com/pborgo/TypeScript.Collections",
+  "devDependencies": {
+    "del": "^2.1.0",
+    "gulp": "^3.9.0",
+    "yargs": "^3.30.0"
+  }
 }
