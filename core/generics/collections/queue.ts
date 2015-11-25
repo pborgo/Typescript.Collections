@@ -1,15 +1,15 @@
 /**
- * Module for collections written in TypeScript
+ * Module for generic collections
  * @module
  */
-module core.collections {
+module core.generics.collections {
 	'use strict';
 
 	/**
 	 * Describes a FIFO collection of elements
 	 * @interface
 	 */
-	export interface IQueue<T extends ICollectable> extends ICollection<T> {
+	export interface IQueue<T extends ICollectable<string | number, any>> extends ICollection<T> {
 		dequeue(): T;
 		enqueue(element: T): void;
 		forEach(cb: (element: T) => void): void;
@@ -24,7 +24,7 @@ module core.collections {
 	 * @class
 	 * @implements IQueue<T>
 	 */
-	export class Queue<T extends ICollectable> implements IQueue<T> {
+	export class Queue<T extends ICollectable<string | number, any>> implements IQueue<T> {
 
 		/**
 		 * The linked list that holds all the elements
@@ -62,9 +62,9 @@ module core.collections {
 
 		/**
 		 * Clones the current Queue<T> and all its elements
-		 * @returns {Object} a clone of the current Queue<T> with all its elements
+		 * @returns {IQueue<T>} a clone of the current Queue<T> with all its elements
 		 */
-		public clone(): any {
+		public clone(): IQueue<T> {
 			var clonedQueue: IQueue<T> = new Queue<T>();
 
 			this._data.forEach((element: T) => {
@@ -87,7 +87,7 @@ module core.collections {
 
 		/**
 		 * Removes and returns the element at the beginning of the current Queue<T>
-		 * @returns {T} the element that is removed from the beginning of the current Queue<T>
+		 * @returns {T} the element that is removed from the beginning of the current Queue<T>; otherwise, null
 		 */
 		public dequeue(): T {
 			var element = this._data.first;
@@ -143,7 +143,7 @@ module core.collections {
 
 		/**
 		 * Returns the element at the beginning of the current Queue<T> without removing it
-		 * @returns {T} the element at the beginning of the current Queue<T>
+		 * @returns {T} the element at the beginning of the current Queue<T>; otherwise, null
 		 */
 		public peek(): T {
 			return this._data.first;

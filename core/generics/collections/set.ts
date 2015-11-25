@@ -1,15 +1,15 @@
 /**
- * Module for collections written in TypeScript
+ * Module for generic collections
  * @module
  */
-module core.collections {
+module core.generics.collections {
 	'use strict';
 
 	/**
 	 * Describes a set of elements
 	 * @interface
 	 */
-	export interface ISet<T extends ICollectable> extends ICollection<T> {
+	export interface ISet<T extends ICollectable<string | number, any>> extends ICollection<T> {
 		add(element: T): boolean;
 		except(otherSet: ISet<T>): void;
 		forEach(cb: (element: T) => void): void;
@@ -26,14 +26,14 @@ module core.collections {
 	 * @class
 	 * @implements ISet<T>
 	 */
-	export class Set<T extends ICollectable> implements ISet<T> {
+	export class Set<T extends ICollectable<string | number, any>> implements ISet<T> {
 
 		/**
 		 * The dictionary that holds all the elements
 		 * @type {IDictionary<string, T>}
 		 * @private
 		 */
-		private _data: IDictionary<string, T>;
+		private _data: IDictionary<string | number, T>;
 
 		/**
 		 * Initializes a new instance of the Set<T>
@@ -62,10 +62,7 @@ module core.collections {
 		 * and if it's added to the current Set<T>; otherwise, false
 		 */
 		public add(element: T): boolean {
-			if(this._data.contains(element))
-				return false;
-
-			return this._data.add(element);
+			return this._data.add(element.hash(), element);
 		}
 
 		/**
@@ -77,9 +74,9 @@ module core.collections {
 
 		/**
 		 * Clones the current Set<T> and all its elements
-		 * @returns {Object} a clone of the current Set<T> with all its elements
+		 * @returns {ISet<T>} a clone of the current Set<T> with all its elements
 		 */
-		public clone(): any {
+		public clone(): ISet<T> {
 			var clonedSet: ISet<T> = new Set<T>();
 			this._data.forEach((key: string, element: T) => {
 				clonedSet.add(element);
@@ -124,11 +121,11 @@ module core.collections {
 		 * @param {ISet<T>} the specified Set<T> to compare to the current Set<T>
 		 */
 		public intersect(otherSet: ISet<T>): void {
-			var intersectData: IDictionary<string, T> = new Dictionary<string, T>();
+			var intersectData: IDictionary<string|number, T> = new Dictionary<string|number, T>();
 
 			this._data.forEach((key: string, element: T) => {
 				if(otherSet.contains(element))
-					intersectData.add(element);
+					intersectData.add(element.hash(), element);
 			});
 
 			this._data = intersectData;
@@ -213,7 +210,7 @@ module core.collections {
 		 */
 		public union(otherSet: ISet<T>): void {
 			otherSet.forEach((element: T) => {
-				this._data.add(element);
+				this._data.add(element.hash(), element);
 			});
 		}
 	}

@@ -1,3 +1,7 @@
+/**
+ * Module for core features
+ * @module
+ */
 module core {
 	export function isFunction(func: any): boolean {
         return (typeof func) === 'function';

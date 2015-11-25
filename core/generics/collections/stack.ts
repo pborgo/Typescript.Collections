@@ -1,15 +1,15 @@
 /**
- * Module for collections written in TypeScript
+ * Module for generic collections
  * @module
  */
-module core.collections {
+module core.generics.collections {
 	'use strict';
 
 	/**
 	 * Describes a LIFO collection of elements
 	 * @interface
 	 */
-	export interface IStack<T extends ICollectable> extends ICollection<T> {
+	export interface IStack<T extends ICollectable<string | number, any>> extends ICollection<T> {
 		forEach(cb: (element: T) => boolean): void;
 		indexOf(element: T): number;
 		lastIndexOf(element: T): number;
@@ -24,7 +24,7 @@ module core.collections {
 	 * @class
 	 * @implements IStack<T>
 	 */
-	export class Stack<T extends ICollectable> implements IStack<T> {
+	export class Stack<T extends ICollectable<string | number, any>> implements IStack<T> {
 
 		/**
 		 * The linked list that holds all the elements
@@ -62,9 +62,9 @@ module core.collections {
 
 		/**
 		 * Clones the current Stack<T> and all its elements
-		 * @returns {Object} a clone of the current Stack<T> with all its elements
+		 * @returns {IStack<T>} a clone of the current Stack<T> with all its elements
 		 */
-		public clone(): any {
+		public clone(): IStack<T> {
 			var clonedStack: IStack<T> = new Stack<T>();
 
 			this._data.forEach((element: T) => {
@@ -123,7 +123,7 @@ module core.collections {
 
 		/**
 		 * Returns the element at the top of the current Stack<T> without removing it
-		 * @returns {T} the element at the top of the current Stack<T>
+		 * @returns {T} the element at the top of the current Stack<T>; otherwise, null
 		 */
 		public peek(): T {
 			return this._data.last;
@@ -131,7 +131,7 @@ module core.collections {
 
 		/**
 		 * Removes and returns the element at the top of the current Stack<T>
-		 * @returns {T} the element removed from the top of the current Stack<T>
+		 * @returns {T} the element removed from the top of the current Stack<T>; otherwise, null
 		 */
 		public pop(): T {
 			var element = this._data.last;

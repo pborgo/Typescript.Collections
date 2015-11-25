@@ -1,15 +1,15 @@
 /**
- * Module for collections written in TypeScript
+ * Module for generic collections
  * @module
  */
-module core.collections {
+module core.generics.collections {
 	'use strict';
 
 	/**
 	 * Describes a doubly linked node containing an element
 	 * @interface
 	 */
-	export interface ILinkedListNode<T extends ICollectable> {
+	interface ILinkedListNode<T extends ICollectable<string | number, any>> {
 		next: ILinkedListNode<T>;
 		prev: ILinkedListNode<T>;
 		value: T;
@@ -20,7 +20,7 @@ module core.collections {
 	 * @class
 	 * @implements ILinkedListNode<T>
 	 */
-	export class LinkedListNode<T extends ICollectable> implements ILinkedListNode<T> {
+	class LinkedListNode<T extends ICollectable<string | number, any>> implements ILinkedListNode<T> {
 
 		/**
 		 * Gets the next node in the current LinkedList<T>
@@ -43,18 +43,18 @@ module core.collections {
 		/**
 		 * Initializes a new instance of the LinkedListNode<T>
 		 * @constructor
-		 * @param {T} the element to contain
+		 * @param {?T} the element to contain
+		 * @param {?ILinkedListNode<T>} the next node to link
+		 * @param {?ILinkedListNode<T>} the previous node to link
 		 */
-		public constructor(private element: T) {
-			this.value = element;
-		}
+		public constructor(value?: T, next?: ILinkedListNode<T>, prev?: ILinkedListNode<T>) {}
 	}
 
 	/**
 	 * Describes a doubly linked list of elements
 	 * @interface
 	 */
-	export interface ILinkedList<T extends ICollectable> extends ICollection<T> {
+	export interface ILinkedList<T extends ICollectable<string | number, any>> extends ICollection<T> {
 		first: T;
 		last: T;
 		addAfter(element: T, idx: number): boolean;
@@ -75,7 +75,7 @@ module core.collections {
 	 * @class
 	 * @implements ILinkedList<T>
 	 */
-	export class LinkedList<T extends ICollectable> implements ILinkedList<T> {
+	export class LinkedList<T extends ICollectable<string | number, any>> implements ILinkedList<T> {
 
 		/**
 		 * Holds the number of elements that are containing in the current LinkedList<T>
@@ -205,10 +205,10 @@ module core.collections {
 
 		/**
 		 * Clones the current LinkedList<T> and all its elements
-		 * @returns {Object} a clone of the current LinkedList<T> with all its elements
+		 * @returns {ILinkedList<T>} a clone of the current LinkedList<T> with all its elements
 		 */
-		public clone(): any {
-			var clonedList = new LinkedList<T>();
+		public clone(): ILinkedList<T> {
+			var clonedList: ILinkedList<T> = new LinkedList<T>();
 			this.forEach((element: T) => {
 				var clonedElement: T = element.clone();
 				clonedList.append(clonedElement);
