@@ -5,5 +5,21 @@
     "args": [
         "--no-color"
     ],
-    "tasks": []
+    "tasks": [
+        {
+            "taskName": "build",
+            "args": ["tsc"],
+            "suppressTaskName": true,
+            "isBuildCommand": true,
+            "isWatching": false,
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "taskName": "test",
+            "args": [],
+            "isTestCommand": true
+        }
+    ]
 }
