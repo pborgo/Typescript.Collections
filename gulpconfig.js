@@ -9,12 +9,9 @@ module.exports = function () {
 			ts: '**/*.ts'
 		},
 		ts: {
-			'declaration': true,
 			'noImplicitAny': false,
-			'outDir': './build/',
 			'preserveConstEnums': true,
 			'removeComments': false,
-			'sourceMap': true,
 			'target': "ES5",
 			'tempDir': './build/'
 		}

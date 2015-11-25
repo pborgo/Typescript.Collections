@@ -10,11 +10,15 @@ gulp.task('default', $.taskListing);
 gulp.task('tsc', ['clean'], function() {
 	return gulp.src([config.paths.core + config.queries.ts])
     .pipe($.typescript(config.ts))
-    .pipe($.sourcemaps.init())
-    .pipe($.uglify())
-    .pipe($.rename({suffix: '.min'}))
-    .pipe($.sourcemaps.write('./'))
+    .pipe($.if(args.release, $.sourcemaps.init()))
+    .pipe($.if(args.release, $.uglify()))
+    .pipe($.if(args.release, $.rename({suffix: '.min'})))
+    .pipe($.if(args.release, $.sourcemaps.write('./')))
     .pipe(gulp.dest(config.paths.build));
+});
+
+gulp.task('tsd', function() {
+    
 });
 
 gulp.task('clean', function (cb) {

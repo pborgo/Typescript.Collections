@@ -19,6 +19,48 @@
     },
     "gulp-typescript/gulp-typescript.d.ts": {
       "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "through2/through2.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "vinyl/vinyl.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "chalk/chalk.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-util/gulp-util.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-uglify/gulp-uglify.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-if/gulp-if.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-load-plugins/gulp-load-plugins.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-rename/gulp-rename.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "gulp-sourcemaps/gulp-sourcemaps.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "del/del.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "glob/glob.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "es6-promise/es6-promise.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "minimatch/minimatch.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
+    },
+    "yargs/yargs.d.ts": {
+      "commit": "b2d17b5dad042e293e77d09f2a30d281325cb606"
     }
   }
 }
